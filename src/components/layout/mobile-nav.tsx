@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   Building2,
+  Settings,
 } from "lucide-react";
 
 const navItems = [
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/onderhoud", label: "Onderhoud", icon: Wrench },
   { href: "/besluitvorming", label: "Besluitvorming", icon: Vote },
   { href: "/tickets", label: "Tickets", icon: Ticket },
+  { href: "/admin", label: "Beheer", icon: Settings },
 ];
 
 export function MobileNav() {

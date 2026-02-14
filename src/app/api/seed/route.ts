@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { seedDatabase } from "@/lib/seed";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json({ error: "Not available in production" }, { status: 403 });
@@ -17,6 +19,8 @@ export async function GET() {
     DELETE FROM kosten;
     DELETE FROM kostencategorieen;
     DELETE FROM leden;
+    DELETE FROM gebouwen;
+    DELETE FROM vves;
   `);
 
   seedDatabase(db);

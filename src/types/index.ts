@@ -1,9 +1,30 @@
+export interface VvE {
+  id: number;
+  naam: string;
+  adres: string;
+  plaats: string;
+  kvk_nummer: string | null;
+  created_at: string;
+}
+
+export interface Gebouw {
+  id: number;
+  vve_id: number;
+  vve_naam?: string;
+  naam: string;
+  adres: string;
+  aantal_eenheden: number;
+  created_at: string;
+}
+
 export interface Lid {
   id: number;
   naam: string;
   email: string;
   appartement: string;
   rol: "lid" | "bestuur" | "beheerder";
+  gebouw_id: number | null;
+  gebouw_naam?: string;
   created_at: string;
 }
 

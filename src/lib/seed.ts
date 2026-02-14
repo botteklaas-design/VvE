@@ -1,8 +1,18 @@
 import type Database from "better-sqlite3";
 
 export function seedDatabase(db: Database.Database) {
+  // Check if already seeded
+  const count = db.prepare("SELECT COUNT(*) as c FROM leden").get() as { c: number };
+  if (count.c > 0) return;
+
+  const insertVve = db.prepare(
+    "INSERT INTO vves (naam, adres, plaats, kvk_nummer) VALUES (?, ?, ?, ?)"
+  );
+  const insertGebouw = db.prepare(
+    "INSERT INTO gebouwen (vve_id, naam, adres, aantal_eenheden) VALUES (?, ?, ?, ?)"
+  );
   const insertLid = db.prepare(
-    "INSERT INTO leden (naam, email, appartement, rol) VALUES (?, ?, ?, ?)"
+    "INSERT INTO leden (naam, email, appartement, rol, gebouw_id) VALUES (?, ?, ?, ?, ?)"
   );
   const insertCategorie = db.prepare(
     "INSERT INTO kostencategorieen (naam) VALUES (?)"
@@ -27,25 +37,36 @@ export function seedDatabase(db: Database.Database) {
   );
 
   const seedAll = db.transaction(() => {
+    // VvE's
+    insertVve.run("VvE Zonnepark Residence", "Zonnelaan 1-40", "Amsterdam", "12345678");
+    insertVve.run("VvE De Waterkant", "Waterkantweg 1-24", "Rotterdam", "87654321");
+
+    // Gebouwen
+    insertGebouw.run(1, "Blok A", "Zonnelaan 1-20", 8);
+    insertGebouw.run(1, "Blok B", "Zonnelaan 21-40", 6);
+    insertGebouw.run(2, "Toren 1", "Waterkantweg 1-12", 12);
+
     // Leden
-    insertLid.run("Jan de Vries", "jan@vve-zonnepark.nl", "A-01", "bestuur");
-    insertLid.run("Maria Jansen", "maria@vve-zonnepark.nl", "A-02", "bestuur");
+    insertLid.run("Jan de Vries", "jan@vve-zonnepark.nl", "A-01", "bestuur", 1);
+    insertLid.run("Maria Jansen", "maria@vve-zonnepark.nl", "A-02", "bestuur", 1);
     insertLid.run(
       "Pieter Bakker",
       "pieter@vve-zonnepark.nl",
       "A-03",
-      "beheerder"
+      "beheerder",
+      1
     );
-    insertLid.run("Sophie van Dijk", "sophie@vve-zonnepark.nl", "A-04", "lid");
+    insertLid.run("Sophie van Dijk", "sophie@vve-zonnepark.nl", "A-04", "lid", 1);
     insertLid.run(
       "Ahmed El Amrani",
       "ahmed@vve-zonnepark.nl",
       "A-05",
-      "lid"
+      "lid",
+      2
     );
-    insertLid.run("Lisa Mulder", "lisa@vve-zonnepark.nl", "A-06", "lid");
-    insertLid.run("Tom Visser", "tom@vve-zonnepark.nl", "A-07", "lid");
-    insertLid.run("Eva Hendriks", "eva@vve-zonnepark.nl", "A-08", "lid");
+    insertLid.run("Lisa Mulder", "lisa@vve-zonnepark.nl", "A-06", "lid", 2);
+    insertLid.run("Tom Visser", "tom@vve-zonnepark.nl", "A-07", "lid", 2);
+    insertLid.run("Eva Hendriks", "eva@vve-zonnepark.nl", "A-08", "lid", 2);
 
     // Kostencategorieen
     insertCategorie.run("Schoonmaak");

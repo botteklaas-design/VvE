@@ -2,12 +2,31 @@ import type Database from "better-sqlite3";
 
 export function initSchema(db: Database.Database) {
   db.exec(`
+    CREATE TABLE IF NOT EXISTS vves (
+      id            INTEGER PRIMARY KEY AUTOINCREMENT,
+      naam          TEXT NOT NULL,
+      adres         TEXT NOT NULL,
+      plaats         TEXT NOT NULL,
+      kvk_nummer    TEXT,
+      created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS gebouwen (
+      id            INTEGER PRIMARY KEY AUTOINCREMENT,
+      vve_id        INTEGER NOT NULL REFERENCES vves(id) ON DELETE CASCADE,
+      naam          TEXT NOT NULL,
+      adres         TEXT NOT NULL,
+      aantal_eenheden INTEGER NOT NULL DEFAULT 0,
+      created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
     CREATE TABLE IF NOT EXISTS leden (
       id            INTEGER PRIMARY KEY AUTOINCREMENT,
       naam          TEXT NOT NULL,
       email         TEXT NOT NULL UNIQUE,
       appartement   TEXT NOT NULL,
       rol           TEXT NOT NULL DEFAULT 'lid',
+      gebouw_id     INTEGER REFERENCES gebouwen(id) ON DELETE SET NULL,
       created_at    TEXT NOT NULL DEFAULT (datetime('now'))
     );
 

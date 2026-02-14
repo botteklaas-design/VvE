@@ -9,15 +9,12 @@ const DB_PATH = path.join(process.cwd(), "data", "vve.db");
 function createDatabase(): Database.Database {
   fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
-  const isNew = !fs.existsSync(DB_PATH);
   const db = new Database(DB_PATH);
   db.pragma("journal_mode = WAL");
+  db.pragma("busy_timeout = 5000");
   db.pragma("foreign_keys = ON");
   initSchema(db);
-
-  if (isNew) {
-    seedDatabase(db);
-  }
+  seedDatabase(db);
 
   return db;
 }
