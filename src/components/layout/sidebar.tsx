@@ -11,6 +11,7 @@ import {
   Ticket,
   Building2,
   Settings,
+  CreditCard,
 } from "lucide-react";
 
 const navItems = [
@@ -20,6 +21,7 @@ const navItems = [
   { href: "/besluitvorming", label: "Besluitvorming", icon: Vote },
   { href: "/tickets", label: "Tickets", icon: Ticket },
   { href: "/admin", label: "Beheer", icon: Settings },
+  { href: "/admin/abonnementen", label: "Abonnementen", icon: CreditCard },
 ];
 
 export function Sidebar() {
