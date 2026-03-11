@@ -100,5 +100,14 @@ export function initSchema(db: Database.Database) {
       bericht     TEXT NOT NULL,
       created_at  TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS subscription_requests (
+      id          INTEGER PRIMARY KEY AUTOINCREMENT,
+      lid_id      INTEGER NOT NULL REFERENCES leden(id),
+      status      TEXT NOT NULL DEFAULT 'pending',
+      bericht     TEXT,
+      created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
   `);
 }

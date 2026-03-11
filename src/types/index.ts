@@ -118,3 +118,13 @@ export interface DashboardData {
   aankomendOnderhoud: Onderhoud[];
   maandelijkseKosten: { maand: number; totaal: number }[];
 }
+
+export interface SubscriptionRequest {
+  id: number;
+  lid_id: number;
+  lid_naam?: string;
+  status: "pending" | "approved" | "rejected";
+  bericht: string | null;
+  created_at: string;
+  updated_at: string;
+}
