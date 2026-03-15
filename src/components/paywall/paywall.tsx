@@ -6,11 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 
 interface PaywallProps {
+  lidId: number;
   onSubscribe: () => void;
   hasActiveRequest?: boolean;
 }
 
-export function Paywall({ onSubscribe, hasActiveRequest }: PaywallProps) {
+export function Paywall({ lidId, onSubscribe, hasActiveRequest }: PaywallProps) {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -23,7 +24,7 @@ export function Paywall({ onSubscribe, hasActiveRequest }: PaywallProps) {
 
     try {
       const formData = new FormData();
-      formData.append("lidId", "1"); // In real app, get from session
+      formData.append("lidId", String(lidId));
       formData.append("bericht", message);
 
       const response = await fetch("/api/subscription-requests", {

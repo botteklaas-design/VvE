@@ -109,5 +109,14 @@ export function initSchema(db: Database.Database) {
       created_at  TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS login_tokens (
+      id          INTEGER PRIMARY KEY AUTOINCREMENT,
+      lid_id      INTEGER NOT NULL REFERENCES leden(id),
+      token       TEXT NOT NULL UNIQUE,
+      expires_at  TEXT NOT NULL,
+      used_at     TEXT,
+      created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
   `);
 }
